@@ -1,4 +1,37 @@
+export const getYear=() => { //获取年份，当前年 后 10年
+  //后十年  同样写法 this.years.unshift({value:(y - i),label:(y - i)})
+  var y = new Date().getFullYear();
+  const years=[]
+  for (var x = 0; x < 10; x++){
+    years.push({ value: (y + x), label: (y + x), id: x })
+  }
+
+  return years;
+};
+
 export default {
+
+  Help: {
+    name: '快速选择',
+    cronArry: [
+      { value: '* * * * * ? *', label: '每秒' },
+      { value: '0 */30 * * * ? *', label: '每30分钟' },
+      { value: '0 15,30,45 * * * ? *', label: '在每小时的第15,30,45分钟' },
+      { value: '0 0 12 * * ? *', label: '每天中午12点' },
+      { value: '0 0 12 ? * MON *', label: '每周一12点' },
+      { value: '0 0 12 * 1,6 ? *', label: '1月和6月的每天中午12点' },
+      { value: '* * 12 ? * 6#1 *', label: '每月第一个星期五的12点' }
+    ],
+    Tips: [
+      { tex: '秒：值为0 1 2...59 通配符支持* / - ，' },
+      { tex: '分：值为0 1 2...59 通配符支持* / - ，' },
+      { tex: '时：值为0 1 2...23 通配符支持* / - ，' },
+      { tex: '日：值为1 2...31 通配符支持* / - , L W ，' },
+      { tex: '月：值为1 2...12，或12个月的缩写(JAN ... DEC) 通配符支持* / - ，' },
+      { tex: '周：值为1 2...7或星期的缩写(SUN ... SAT) 通配符支持* / - , ? L # ，' },
+      { tex: '年：值为2022 ... 2099 通配符支持* / - ,' }
+    ]
+  },
   Seconds: {
     name: '秒',
     every: '每一秒钟',
@@ -21,16 +54,26 @@ export default {
     cycle: ['周期从', '到', '小时']
   },
   Day: {
-    name: '天(周)',
+    name: '天',
     every: '每一天',
-    intervalWeek: ['每隔', '周执行 从', '开始'],
+    intervalWeek: ['每隔', '周执行 从', '开始'], //
     intervalDay: ['每隔', '天执行 从', '天开始'],
-    specificWeek: '具体星期几(可多选)',
+    specificWeek: '具体星期几(可多选)', //
     specificDay: '具体天数(可多选)',
     lastDay: '在这个月的最后一天',
+    lastWeekday: '在这个月的最后一个工作日', //
+    lastWeek: ['在这个月的最后一个'], //
+    beforeEndMonth: ['在本月底前', '天'],
+    nearestWeekday: ['最近的工作日（周一至周五）至本月', '日'], //
+    someWeekday: ['在这个月的第', '个']//
+  },
+  week: {
+    name: '周',
+    every: '每一周',
+    specificWeek: '具体星期几(可多选)',
+    intervalWeek: ['每隔', '周执行 从', '开始'],
     lastWeekday: '在这个月的最后一个工作日',
     lastWeek: ['在这个月的最后一个'],
-    beforeEndMonth: ['在本月底前', '天'],
     nearestWeekday: ['最近的工作日（周一至周五）至本月', '日'],
     someWeekday: ['在这个月的第', '个']
   },
@@ -47,29 +90,10 @@ export default {
     every: '每一年',
     interval: ['每隔', '年执行 从', '年开始'],
     specific: '具体年份(可多选)',
-    cycle: ['从', '到', '年之间的每一年']
+    cycle: ['从', '到', '年之间的每一年'],
+    yeaArray: getYear()
   },
-  Help: {
-    name: '帮助(快捷选择)',
-    cronArry: [
-      { value: '* * * * * ? *', label: '每秒' },
-      { value: '0 */30 * * * ? *', label: '每30分钟' },
-      { value: '0 15,30,45 * * * ? *', label: '在每小时的第15,30,45分钟' },
-      { value: '0 0 12 * * ? *', label: '每天中午12点' },
-      { value: '0 0 12 ? * MON *', label: '每周一12点' },
-      { value: '0 0 12 * 1,6 ? *', label: '1月和6月的每天中午12点' },
-      { value: '* * 12 ? * 6#1 *', label: '每月第一个星期五的12点' }
-    ],
-    Tips: [
-      { tex: '秒：值为0 1 2...59 通配符支持* / - ，' },
-      { tex: '分：值为0 1 2...59 通配符支持* / - ，' },
-      { tex: '时：值为0 1 2...23 通配符支持* / - ，' },
-      { tex: '日：值为1 2...31 通配符支持* / - , L W ，' },
-      { tex: '月：值为1 2...12，或12个月的缩写(JAN ... DEC) 通配符支持* / - ，' },
-      { tex: '周：值为1 2...7或星期的缩写(SUN ... SAT) 通配符支持* / - , ? L # ，' },
-      { tex: '年：值为2022 ... 2099 通配符支持* / - ,' }
-    ]
-  },
+
   Save: '生成表达式',
   Close: '关闭'
 }

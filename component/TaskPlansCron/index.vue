@@ -7,6 +7,31 @@
       @click="i18n='cn'"
     >{{ i18n }}</el-button>
     <el-tabs v-model="tabsInx" type="border-card">
+      <!-- 帮助 -->
+      <el-tab-pane name="hel">
+        <span slot="label"><i class="el-icon-info" /> {{ text.Help.name }}</span>
+        <div class="tabBody">
+          <el-row style="margin: 0 auto;">
+            <span style="font-weight: bold; font-size: 15px;">选择：</span>
+            <el-select v-model="cronArryvalue" value-key="cronArryvalue" placeholder="请选择" style="width: 290px;margin-left:1em;" @change="helpFun">
+              <el-option
+                v-for="item in text.Help.cronArry"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+                <span style="float: left">{{ item.label }}</span>
+                <span style="float: right; color: #8492a6; font-size: 12px">{{ item.value }}</span>
+              </el-option>
+            </el-select>
+
+            <span>{{ cronArryvalue }}</span>
+          </el-row>
+          <div v-for="item in text.Help.Tips" :key="item.tex" style="margin: 6px 0;">
+            <span style="font-size:13px">{{ item.tex }}</span>
+          </div>
+        </div>
+      </el-tab-pane>
       <!-- 秒 -->
       <el-tab-pane name="sec">
         <span slot="label"><i class="el-icon-date" /> {{ text.Seconds.name }}</span>
@@ -41,26 +66,6 @@
           <el-row>
             <el-radio
               v-model="second.cronEvery"
-              class="long"
-              label="3"
-            >{{ text.Seconds.specific }}
-              <el-select
-                v-model="second.specificSpecific"
-                value-key="second"
-                size="small"
-                multiple
-              >
-                <el-option
-                  v-for="val in 60"
-                  :key="val"
-                  :value="val-1"
-                >{{ val-1 }}</el-option>
-              </el-select>
-            </el-radio>
-          </el-row>
-          <el-row>
-            <el-radio
-              v-model="second.cronEvery"
               label="4"
             >{{ text.Seconds.cycle[0] }}
               <el-input-number
@@ -77,6 +82,28 @@
                 :max="59"
               />
               {{ text.Seconds.cycle[2]||'' }}
+            </el-radio>
+          </el-row>
+          <el-row>
+            <el-radio
+              v-model="second.cronEvery"
+              class="long"
+              label="3"
+            >{{ text.Seconds.specific }}
+              <el-checkbox-group
+                v-model="second.specificSpecific"
+                value-key="second"
+                size="small"
+                multiple
+
+                class="checkBox_style"
+              >
+                <el-checkbox
+                  v-for="val in 60"
+                  :key="val"
+                  :label="val-1"
+                >{{ val-1 }}</el-checkbox>
+              </el-checkbox-group>
             </el-radio>
           </el-row>
         </div>
@@ -115,26 +142,6 @@
           <el-row>
             <el-radio
               v-model="minute.cronEvery"
-              class="long"
-              label="3"
-            >{{ text.Minutes.specific }}
-              <el-select
-                v-model="minute.specificSpecific"
-                value-key="minute"
-                size="small"
-                multiple
-              >
-                <el-option
-                  v-for="val in 60"
-                  :key="val"
-                  :value="val-1"
-                >{{ val-1 }}</el-option>
-              </el-select>
-            </el-radio>
-          </el-row>
-          <el-row>
-            <el-radio
-              v-model="minute.cronEvery"
               label="4"
             >{{ text.Minutes.cycle[0] }}
               <el-input-number
@@ -153,6 +160,28 @@
               {{ text.Minutes.cycle[2] }}
             </el-radio>
           </el-row>
+          <el-row>
+            <el-radio
+              v-model="minute.cronEvery"
+              class="long"
+              label="3"
+            >{{ text.Minutes.specific }}
+              <el-checkbox-group
+                v-model="minute.specificSpecific"
+                value-key="minute"
+                size="small"
+                multiple
+                class="checkBox_style"
+              >
+                <el-checkbox
+                  v-for="val in 60"
+                  :key="val"
+                  :label="val-1"
+                >{{ val-1 }}</el-checkbox>
+              </el-checkbox-group>
+            </el-radio>
+          </el-row>
+
         </div>
       </el-tab-pane>
       <!-- 时 -->
@@ -186,27 +215,7 @@
               {{ text.Hours.interval[2] }}
             </el-radio>
           </el-row>
-          <el-row>
-            <el-radio
-              v-model="hour.cronEvery"
-              class="long"
-              label="3"
-            >{{ text.Hours.specific }}
-              <el-select
-                v-model="hour.specificSpecific"
 
-                value-key="hour"
-                size="small"
-                multiple
-              >
-                <el-option
-                  v-for="val in 24"
-                  :key="val"
-                  :value="val-1"
-                >{{ val-1 }}</el-option>
-              </el-select>
-            </el-radio>
-          </el-row>
           <el-row>
             <el-radio
               v-model="hour.cronEvery"
@@ -228,9 +237,30 @@
               {{ text.Hours.cycle[2] }}
             </el-radio>
           </el-row>
+          <el-row>
+            <el-radio
+              v-model="hour.cronEvery"
+              class="long"
+              label="3"
+            >{{ text.Hours.specific }}
+              <el-checkbox-group
+                v-model="hour.specificSpecific"
+                value-key="hour"
+                size="small"
+                multiple
+                class="checkBox_style"
+              >
+                <el-checkbox
+                  v-for="val in 24"
+                  :key="val"
+                  :label="val-1"
+                >{{ val-1 }}</el-checkbox>
+              </el-checkbox-group>
+            </el-radio>
+          </el-row>
         </div>
       </el-tab-pane>
-      <!-- 天(周) -->
+      <!-- 天 -->
       <el-tab-pane name="day">
         <span slot="label"><i class="el-icon-date" /> {{ text.Day.name }}</span>
         <div class="tabBody">
@@ -239,34 +269,6 @@
               v-model="day.cronEvery"
               label="1"
             >{{ text.Day.every }}</el-radio>
-          </el-row>
-          <el-row>
-            <el-radio
-              v-model="day.cronEvery"
-              label="2"
-            >{{ text.Day.intervalWeek[0] }}
-              <el-input-number
-                v-model="week.incrementIncrement"
-                size="small"
-                :min="1"
-                :max="7"
-              />
-              {{ text.Day.intervalWeek[1] }}
-              <el-select
-                v-model="week.incrementStart"
-
-                value-key="week"
-                size="small"
-              >
-                <el-option
-                  v-for="val in 7"
-                  :key="val"
-                  :label="text.Week[val-1]"
-                  :value="val"
-                />
-              </el-select>
-              {{ text.Day.intervalWeek[2] }}
-            </el-radio>
           </el-row>
           <el-row>
             <el-radio
@@ -292,77 +294,8 @@
           <el-row>
             <el-radio
               v-model="day.cronEvery"
-              class="long"
-              label="4"
-            >{{ text.Day.specificWeek }}
-              <el-select
-                v-model="week.specificSpecific"
-                value-key="weeks"
-                size="small"
-                multiple
-              >
-                <el-option
-                  v-for="val in 7"
-                  :key="val"
-                  :label="text.Week[val-1]"
-                  :value="['SUN','MON','TUE','WED','THU','FRI','SAT'][val-1]"
-                />
-              </el-select>
-            </el-radio>
-          </el-row>
-          <el-row>
-            <el-radio
-              v-model="day.cronEvery"
-              class="long"
-              label="5"
-            >{{ text.Day.specificDay }}
-              <el-select
-                v-model="day.specificSpecific"
-
-                value-key="day"
-                size="small"
-                multiple
-              >
-                <el-option
-                  v-for="val in 31"
-                  :key="val"
-                  :value="val"
-                >{{ val }}</el-option>
-              </el-select>
-            </el-radio>
-          </el-row>
-          <el-row>
-            <el-radio
-              v-model="day.cronEvery"
               label="6"
             >{{ text.Day.lastDay }}</el-radio>
-          </el-row>
-          <el-row>
-            <el-radio
-              v-model="day.cronEvery"
-              label="7"
-            >{{ text.Day.lastWeekday }}</el-radio>
-          </el-row>
-          <el-row>
-            <el-radio
-              v-model="day.cronEvery"
-              label="8"
-            >{{ text.Day.lastWeek[0] }}
-              <el-select
-                v-model="day.cronLastSpecificDomDay"
-
-                value-key="days"
-                size="small"
-              >
-                <el-option
-                  v-for="val in 7"
-                  :key="val"
-                  :label="text.Week[val-1]"
-                  :value="val"
-                />
-              </el-select>
-              {{ text.Day.lastWeek[1]||'' }}
-            </el-radio>
           </el-row>
           <el-row>
             <el-radio
@@ -381,46 +314,28 @@
           <el-row>
             <el-radio
               v-model="day.cronEvery"
-              label="10"
-            >{{ text.Day.nearestWeekday[0] }}
-              <el-input-number
-                v-model="day.cronDaysNearestWeekday"
+              class="long"
+              label="5"
+            >{{ text.Day.specificDay }}
+              <el-checkbox-group
+                v-model="day.specificSpecific"
+                value-key="day"
                 size="small"
-                :min="1"
-                :max="31"
-              />
-              {{ text.Day.nearestWeekday[1] }}
-            </el-radio>
-          </el-row>
-          <el-row>
-            <el-radio
-              v-model="day.cronEvery"
-              label="11"
-            >{{ text.Day.someWeekday[0] }}
-              <el-input-number
-                v-model="week.cronNthDayNth"
-                size="small"
-                :min="1"
-                :max="5"
-              />
-              <el-select
-                v-model="week.cronNthDayDay"
-
-                value-key="weeksy"
-                size="small"
+                multiple
+                class="checkBox_style"
               >
-                <el-option
-                  v-for="val in 7"
+                <el-checkbox
+                  v-for="val in 31"
                   :key="val"
-                  :label="text.Week[val-1]"
-                  :value="val"
-                />
-              </el-select>
-              {{ text.Day.someWeekday[1] }}
+                  :label="val"
+                >{{ val }}</el-checkbox>
+              </el-checkbox-group>
+
             </el-radio>
           </el-row>
         </div>
       </el-tab-pane>
+
       <!-- 月 -->
       <el-tab-pane name="mon">
         <span slot="label"><i class="el-icon-date" /> {{ text.Month.name }}</span>
@@ -451,28 +366,7 @@
               />
             </el-radio>
           </el-row>
-          <el-row>
-            <el-radio
-              v-model="month.cronEvery"
-              class="long"
-              label="3"
-            >{{ text.Month.specific }}
-              <el-select
-                v-model="month.specificSpecific"
 
-                value-key="month"
-                size="small"
-                multiple
-              >
-                <el-option
-                  v-for="val in 12"
-                  :key="val"
-                  :label="val"
-                  :value="val"
-                />
-              </el-select>
-            </el-radio>
-          </el-row>
           <el-row>
             <el-radio
               v-model="month.cronEvery"
@@ -491,6 +385,154 @@
                 :min="1"
                 :max="12"
               />
+            </el-radio>
+          </el-row>
+          <el-row>
+            <el-radio
+              v-model="month.cronEvery"
+              class="long"
+              label="3"
+            >{{ text.Month.specific }}
+              <el-checkbox-group
+                v-model="month.specificSpecific"
+                value-key="month"
+                size="small"
+                multiple
+                class="checkBox_style"
+              >
+                <el-checkbox
+                  v-for="val in 12"
+                  :key="val"
+                  :label="val"
+                >{{ val }}</el-checkbox>
+              </el-checkbox-group>
+
+            </el-radio>
+          </el-row>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane name="wek">
+        <span slot="label"><i class="el-icon-date" /> {{ text.week.name }}</span>
+        <div class="tabBody">
+          <el-row>
+            <el-radio
+              v-model="day.cronEvery"
+              label="2"
+            >{{ text.week.intervalWeek[0] }}
+              <el-input-number
+                v-model="week.incrementIncrement"
+                size="small"
+                :min="1"
+                :max="7"
+              />
+              {{ text.week.intervalWeek[1] }}
+              <el-select
+                v-model="week.incrementStart"
+
+                value-key="week"
+                size="small"
+              >
+                <el-option
+                  v-for="val in 7"
+                  :key="val"
+                  :label="text.Week[val-1]"
+                  :value="val"
+                />
+              </el-select>
+              {{ text.week.intervalWeek[2] }}
+            </el-radio>
+          </el-row>
+
+          <el-row>
+            <el-radio
+              v-model="day.cronEvery"
+              label="7"
+            >{{ text.week.lastWeekday }}</el-radio>
+          </el-row>
+          <el-row>
+            <el-radio
+              v-model="day.cronEvery"
+              label="8"
+            >{{ text.week.lastWeek[0] }}
+              <el-select
+                v-model="day.cronLastSpecificDomDay"
+
+                value-key="days"
+                size="small"
+              >
+                <el-option
+                  v-for="val in 7"
+                  :key="val"
+                  :label="text.Week[val-1]"
+                  :value="val-1"
+                />
+              </el-select>
+              {{ text.week.lastWeek[1]||'' }}
+            </el-radio>
+          </el-row>
+          <el-row>
+            <el-radio
+              v-model="day.cronEvery"
+              label="10"
+            >{{ text.week.nearestWeekday[0] }}
+              <el-input-number
+                v-model="day.cronDaysNearestWeekday"
+                size="small"
+                :min="1"
+                :max="31"
+              />
+              {{ text.week.nearestWeekday[1] }}
+            </el-radio>
+          </el-row>
+          <el-row>
+            <el-radio
+              v-model="day.cronEvery"
+              label="11"
+            >{{ text.week.someWeekday[0] }}
+              <el-input-number
+                v-model="week.cronNthDayNth"
+                size="small"
+                :min="1"
+                :max="5"
+              />
+              <el-select
+                v-model="week.cronNthDayDay"
+
+                value-key="weeksy"
+                size="small"
+              >
+                <el-option
+                  v-for="val in 7"
+                  :key="val"
+                  :label="text.Week[val-1]"
+                  :value="val"
+                />
+              </el-select>
+              {{ text.week.someWeekday[1] }}
+            </el-radio>
+          </el-row>
+          <el-row>
+            <el-radio
+              v-model="day.cronEvery"
+              class="long"
+              label="4"
+            >{{ text.week.specificWeek }}
+              <el-checkbox-group
+                v-model="week.specificSpecific"
+                value-key="weeks"
+                size="small"
+                multiple
+                class="checkBox_style"
+                style="margin: 10px 0;"
+              >
+                <el-checkbox
+                  v-for="val in 7"
+
+                  :key="val-1"
+                  style="width: 50px;"
+                  :label="['SUN','MON','TUE','WED','THU','FRI','SAT'][val-1]"
+                >{{ text.Week[val-1] }}</el-checkbox>
+              </el-checkbox-group>
             </el-radio>
           </el-row>
         </div>
@@ -525,29 +567,7 @@
               />
             </el-radio>
           </el-row>
-          <el-row>
-            <el-radio
-              v-model="year.cronEvery"
-              class="long"
-              label="3"
-            >{{ text.Year.specific }}
-              <el-select
-                v-model="year.specificSpecific"
 
-                value-key="year"
-                size="small"
-                filterable
-                multiple
-              >
-                <el-option
-                  v-for="val in 100"
-                  :key="val"
-                  :label="2017+val"
-                  :value="2017+val"
-                />
-              </el-select>
-            </el-radio>
-          </el-row>
           <el-row>
             <el-radio
               v-model="year.cronEvery"
@@ -568,44 +588,46 @@
               />
             </el-radio>
           </el-row>
+          <el-row>
+            <el-radio
+              v-model="year.cronEvery"
+              class="long"
+              label="3"
+            >{{ text.Year.specific }}
+              <el-checkbox-group
+                v-model="year.specificSpecific"
+                value-key="year"
+                size="small"
+                filterable
+                multiple
+                class="checkBox_style"
+                style="margin: 10px 0;"
+              >
+                <el-checkbox
+                  v-for="(val,index) in text.Year.yeaArray"
+                  :key="val.id"
+                  style="width: 50px;"
+                  :label="val.label"
+                  :checked="val.value==year.specificSpecific[index]"
+                >{{ val.value }}</el-checkbox>
+              </el-checkbox-group>
+            </el-radio>
+          </el-row>
         </div>
       </el-tab-pane>
 
-      <el-tab-pane name="hel">
-        <span slot="label"><i class="el-icon-info" /> {{ text.Help.name }}</span>
-        <div class="tabBody">
-          <el-row>
-            <el-button type="primary" size="mini" :disabled="!cronArryvalue?true:false" @click="helpFun">使用</el-button>
-            <el-select v-model="cronArryvalue" value-key="cronArryvalue" size="mini" placeholder="请选择" style="width: 290px;margin-left:1em;">
-              <el-option
-                v-for="item in text.Help.cronArry"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-                <span style="float: left">{{ item.label }}</span>
-                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.value }}</span>
-              </el-option>
-            </el-select>
-            <span>{{ cronArryvalue }}</span>
-          </el-row>
-          <div v-for="item in text.Help.Tips" :key="item.tex">
-            <span style="font-size:15px">{{ item.tex }}</span>
-          </div>
-        </div>
-      </el-tab-pane>
     </el-tabs>
-    <div v-show="tabsInx!=='hel'" class="bottom">
-      <!-- <span class="value">{{ cron }}</span> -->
+    <!-- <span class="value">{{ cron }}</span> -->
+    <!-- <div v-show="tabsInx!=='hel'" class="bottom">
       <el-button
         type="primary"
         @click="change"
       >{{ text.Save }}</el-button>
-      <!-- <el-button
+      <el-button
         type="primary"
         @click="close"
-      >{{ text.Close }}</el-button> -->
-    </div>
+      >{{ text.Close }}</el-button>
+    </div> -->
   </div>
 </template>
 <script>
@@ -624,7 +646,7 @@ export default {
         { type: 'day', expression: '' },
         { type: 'month', expression: '' },
         { type: 'Week', expression: '' },
-        { type: 'year', expression: '' }
+        { type: 'year', expression: [2022, 2025] }
       ],
       second: {
         cronEvery: '',
@@ -712,9 +734,10 @@ export default {
           break;
         case '3':
           this.second.specificSpecific.map(val => {
-            seconds += val + ','
+            seconds += val-0 + ','
+            this.second.specificSpecific.push(val-0)
           });
-          seconds = seconds.slice(0, -1);
+          // seconds = seconds.slice(0, -1);
           break;
         case '4':
           seconds = this.second.rangeStart + '-' + this.second.rangeEnd;
@@ -735,7 +758,9 @@ export default {
         case '3':
           this.minute.specificSpecific.map(val => {
             minutes += val + ','
+            this.minute.specificSpecific.push(val-0)
           });
+
           minutes = minutes.slice(0, -1);
           break;
         case '4':
@@ -757,6 +782,7 @@ export default {
         case '3':
           this.hour.specificSpecific.map(val => {
             hours += val + ','
+            this.hour.specificSpecific.push(val-0)
           });
           hours = hours.slice(0, -1);
           break;
@@ -783,6 +809,7 @@ export default {
         case '5':
           this.day.specificSpecific.map(val => {
             days += val + ','
+            this.day.specificSpecific.push(val-0)
           });
           days = days.slice(0, -1);
           break;
@@ -848,6 +875,7 @@ export default {
         case '3':
           this.month.specificSpecific.map(val => {
             months += val + ','
+            this.month.specificSpecific.push(val-0)
           });
           months = months.slice(0, -1);
           break;
@@ -870,6 +898,7 @@ export default {
         case '3':
           this.year.specificSpecific.map(val => {
             years += val + ','
+            this.year.specificSpecific.push(val-0)
           });
           years = years.slice(0, -1);
           break;
@@ -885,17 +914,29 @@ export default {
   },
   watch: {
     data() {
+      this.$emit('CronChange', this.cron);
       this.rest(this.$data);
+    },
+    cron: {
+      handler(newData, olddata) {
+        this.$emit('CronChange', newData);
+      },
+      immediate: true
     }
+    // expression: {
+    //   handler(newData, olddata) {
+    //     console.log('🚀 ~ file: index.vue ~ line 921 ~ handler ~ newData', newData)
+    //   },
+    // }
   },
   mounted() {
     this.resolveExpression();
-    // this.change()
+
+    // this.translateLanguage()
   },
   methods: {
 
     helpFun(){
-      // this.resolveExpression(this.cronArryvalue)
       this.$emit('CronChange', this.cronArryvalue);
       this.close()
     },
@@ -929,8 +970,9 @@ export default {
         }
       }
     },
-    // 反向解析表达式
+    // 反向解析表达式  待测试----
     resolveExpression(res) {
+      console.log('🚀 ~ file: index.vue ~ line 962 ~ resolveExpression ~ this.expression', this.expression)
       if (!this.expression) return;//有异常。。。待测试
       let expList = this.expression.split(' ');
       if (res&&expList){
@@ -962,6 +1004,7 @@ export default {
             return;
         }
       });
+      console.log('week---》', this.week, 'year-----》', this.year, 'month-------》', this.month);
     },
     // 年，月，时，分，秒
     commonParser(expressionType, str) {
@@ -985,13 +1028,12 @@ export default {
       } else if (str.indexOf('#') >= 0) {
         this.day.cronEvery = '11';
         const range = str.split('#');
-
+        this.handlecondsnscuengtv
         this.Week.cronNthDayDay = range[0];
         this.Week.cronNthDayNth = range[1];
       }
     },
     resolveDay(str) {
-      console.log('🚀 ~ file: index.vue ~ line 968 ~ resolveDay ~ str', str)
       if (str == '*') {
         this.resolveStar(this.day);
       } else if (str.indexOf('/') >= 0) {
@@ -1031,6 +1073,7 @@ export default {
     resolveComma(expressionObj, expression, type = '3') {
       expressionObj.cronEvery = type;
       expressionObj.specificSpecific = expression.split(',');
+      console.log('🚀 ~ file: index.vue ~ line 1069 ~ resolveComma ~ expression', expression)
     }
 
   }
@@ -1049,7 +1092,7 @@ export default {
   }
   .tabBody {
     .el-row {
-      margin: 10px 0;
+      margin: 5px 0;
       .long {
         .el-select {
           width: 350px;
@@ -1063,11 +1106,19 @@ export default {
   .bottom {
     width: 100%;
     text-align: right;
-    margin:1vw auto;
+    margin:0.5vw auto;
     position: relative;
     .value {
       font-size: 18px;
       vertical-align: middle;
+    }
+  }
+  .checkBox_style{
+    white-space: normal;
+    width: 48vw;
+    >.el-checkbox{
+      width: 30px;
+
     }
   }
 }
