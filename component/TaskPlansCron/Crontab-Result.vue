@@ -364,7 +364,6 @@ export default {
         }
       }
       this.$emit('change', this.resultList, this.sumcc)
-      console.log('🚀 ~ file: Crontab-Result.vue ~ line 340 ~ expressionChange ~ this.resultList', this.resultList)
 
       // 计算完成-显示结果
       this.isShow = true;
@@ -422,7 +421,6 @@ export default {
           }
         } else if (rule.indexOf('L') >= 0) {
           this.dayRule = 'lastWeek';
-          console.log('🚀 ~ file: Crontab-Result.vue ~ line 427 ~ getWeekArr ~ rule', rule)
 
           this.dayRuleSup = Number(rule.match(/[0-9]{1,2}/g)[0]);
           this.dateArr[3] = [31];

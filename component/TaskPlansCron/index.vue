@@ -735,7 +735,6 @@ export default {
         case '3':
           this.second.specificSpecific.map(val => {
             seconds += val-0 + ','
-            this.second.specificSpecific.push(val-0)
           });
           // seconds = seconds.slice(0, -1);
           break;
@@ -758,7 +757,6 @@ export default {
         case '3':
           this.minute.specificSpecific.map(val => {
             minutes += val + ','
-            this.minute.specificSpecific.push(val-0)
           });
 
           minutes = minutes.slice(0, -1);
@@ -782,7 +780,6 @@ export default {
         case '3':
           this.hour.specificSpecific.map(val => {
             hours += val + ','
-            this.hour.specificSpecific.push(val-0)
           });
           hours = hours.slice(0, -1);
           break;
@@ -809,7 +806,6 @@ export default {
         case '5':
           this.day.specificSpecific.map(val => {
             days += val + ','
-            this.day.specificSpecific.push(val-0)
           });
           days = days.slice(0, -1);
           break;
@@ -875,7 +871,6 @@ export default {
         case '3':
           this.month.specificSpecific.map(val => {
             months += val + ','
-            this.month.specificSpecific.push(val-0)
           });
           months = months.slice(0, -1);
           break;
@@ -898,7 +893,7 @@ export default {
         case '3':
           this.year.specificSpecific.map(val => {
             years += val + ','
-            this.year.specificSpecific.push(val-0)
+            // this.year.specificSpecific.push(val-0)
           });
           years = years.slice(0, -1);
           break;
@@ -916,6 +911,7 @@ export default {
     data() {
       this.$emit('CronChange', this.cron);
       this.rest(this.$data);
+      console.log('🚀 ~ （Cron）子组件----每次修改触发的emit，把数据传回父组件--------》~ this.form', this.cron)
     },
     cron: {
       handler(newData, olddata) {
@@ -972,7 +968,6 @@ export default {
     },
     // 反向解析表达式  待测试----
     resolveExpression(res) {
-      console.log('🚀 ~ file: index.vue ~ line 962 ~ resolveExpression ~ this.expression', this.expression)
       if (!this.expression) return;//有异常。。。待测试
       let expList = this.expression.split(' ');
       if (res&&expList){
@@ -1004,7 +999,6 @@ export default {
             return;
         }
       });
-      console.log('week---》', this.week, 'year-----》', this.year, 'month-------》', this.month);
     },
     // 年，月，时，分，秒
     commonParser(expressionType, str) {
@@ -1072,8 +1066,26 @@ export default {
     },
     resolveComma(expressionObj, expression, type = '3') {
       expressionObj.cronEvery = type;
-      expressionObj.specificSpecific = expression.split(',');
-      console.log('🚀 ~ file: index.vue ~ line 1069 ~ resolveComma ~ expression', expression)
+      let aNumb=expression.split(',')
+      aNumb.filter(function (x) {
+        const a=Number(x)
+        if (!isNaN(a)) {
+          aNumb = aNumb.map(Number);
+        } else {
+          aNumb=expression.split(',')
+        }
+      })
+      expressionObj.specificSpecific = aNumb
+      // for (let i = 0; i < expression.split(',').length; i++) {
+      //   const nu = expression.split(',')[i];
+      //   var n = Number(nu);
+      //   if (!isNaN(n)) {
+      //     expressionObj.specificSpecific =n
+      //     console.log('🚀 ~ file: index.vue ~ line 1077 ~ resolveComma ~ n', n)
+      //   } else {
+      //     expressionObj.specificSpecific = expression.split(',')
+      //   }
+      // }
     }
 
   }
