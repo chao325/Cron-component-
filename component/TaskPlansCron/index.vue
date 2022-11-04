@@ -1,11 +1,11 @@
 
 <template>
   <div id="changeContab">
-    <el-button
+    <!-- <el-button
       class="language"
       type="text"
       @click="i18n='cn'"
-    >{{ i18n }}</el-button>
+    >{{ i18n }}</el-button> -->
     <el-tabs v-model="tabsInx" type="border-card">
       <!-- 帮助 -->
       <el-tab-pane name="hel">
@@ -411,6 +411,8 @@
           </el-row>
         </div>
       </el-tab-pane>
+      <!-- 周 -->
+
       <el-tab-pane name="wek">
         <span slot="label"><i class="el-icon-date" /> {{ text.week.name }}</span>
         <div class="tabBody">
@@ -495,6 +497,8 @@
                 :min="1"
                 :max="5"
               />
+              {{ text.week.someWeekday[1] }}
+
               <el-select
                 v-model="week.cronNthDayDay"
 
@@ -508,7 +512,6 @@
                   :value="val"
                 />
               </el-select>
-              {{ text.week.someWeekday[1] }}
             </el-radio>
           </el-row>
           <el-row>
@@ -734,7 +737,7 @@ export default {
           break;
         case '3':
           this.second.specificSpecific.map(val => {
-            seconds += val-0 + ','
+            seconds += val + ','
           });
           // seconds = seconds.slice(0, -1);
           break;
@@ -1022,9 +1025,11 @@ export default {
       } else if (str.indexOf('#') >= 0) {
         this.day.cronEvery = '11';
         const range = str.split('#');
-        this.handlecondsnscuengtv
-        this.Week.cronNthDayDay = range[0];
-        this.Week.cronNthDayNth = range[1];
+        console.log('🚀 ~ file: index.vue ~ line 1029 ~ resolveWeek ~ this.Week.cronNthDayDay', str, range)
+
+        this.week.cronNthDayDay = range[0];
+        console.log('🚀 ~ file: index.vue ~ line 1031 ~ resolveWeek ~ this.week.cronNthDayDay', this.week.cronNthDayDay)
+        this.week.cronNthDayNth = range[1];
       }
     },
     resolveDay(str) {
@@ -1066,16 +1071,19 @@ export default {
     },
     resolveComma(expressionObj, expression, type = '3') {
       expressionObj.cronEvery = type;
-      let aNumb=expression.split(',')
-      aNumb.filter(function (x) {
-        const a=Number(x)
-        if (!isNaN(a)) {
-          aNumb = aNumb.map(Number);
-        } else {
-          aNumb=expression.split(',')
-        }
-      })
-      expressionObj.specificSpecific = aNumb
+      if (expression) {
+        let aNumb=expression.split(',')
+        aNumb.filter(function (x) {
+          const a=Number(x)
+          if (!isNaN(a)) {
+            aNumb = aNumb.map(Number);
+          } else {
+            aNumb=expression.split(',')
+          }
+        })
+        expressionObj.specificSpecific = aNumb
+      }
+
       // for (let i = 0; i < expression.split(',').length; i++) {
       //   const nu = expression.split(',')[i];
       //   var n = Number(nu);

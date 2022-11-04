@@ -358,9 +358,9 @@ export default {
       if (resultArr.length == 0) {
         this.resultList = ['没有达到条件的结果！'];
       } else {
-        this.resultList = resultArr;
-        if (resultArr.length < this.sumcc) {
-          this.resultList.push('此表达式只够运行出以上' + resultArr.length + '条结果！')
+        this.resultList = Array.from(new Set(resultArr));
+        if (this.resultList.length < this.sumcc) {
+          this.resultList.push('此表达式只够运行出以上' + this.resultList.length + '条结果！')
         }
       }
       this.$emit('change', this.resultList, this.sumcc)
